@@ -1,0 +1,45 @@
+{% block quilljs_widget %}
+    <textarea style="display: none" {{ block('widget_attributes') }}>{{ value | raw }}</textarea>
+
+    <div class="editor-container">
+        <div id="{{ id }}-editor">{{ value | raw }}</div>
+    </div>
+
+    {{ block('add_quill_js') }}
+{% endblock %}
+
+{% block add_quill_js %}
+    {% if quilljs.js_source %}<script src="{{ asset(quilljs.js_source) }}"></script>{% endif %}
+    {% if quilljs.css_source %}<link rel="stylesheet" href="{{ asset(quilljs.css_source) }}">{% endif %}
+    {% if quilljs.edit_html %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+        <script src="https://unpkg.com/quill-html-edit-button@2.2.7/dist/quill.htmlEditButton.min.js"></script>
+    {% endif %}
+    <script>
+        {% if quilljs.edit_html %}Quill.register("modules/htmlEditButton", htmlEditButton);{% endif %}
+        const quill{{ id }} = new Quill('#{{ id }}-editor', {
+            theme: '{{ quilljs.theme|default('snow') }}',
+            modules: {
+                toolbar: {
+                    container: {% if quilljs.toolbar is iterable %}{{ quilljs.toolbar|json_encode|raw }}{% elseif quilljs.toolbar == true %}{{ quilljs.toolbar|raw }}{% else %}{{ '"%s"'|format(quilljs.toolbar)|raw }}{% endif %},
+                    syntax: true,
+                },
+                history: true,
+                {% if quilljs.edit_html %}htmlEditButton: {
+                    syntax: true
+                },{% endif %}
+            }
+        });
+
+        if (typeof jQuery !== 'undefined' && typeof jQuery.fn.select2 !== 'undefined') {
+            $(document).ready(function() {
+                var $selectElement = $('.ql-toolbar select.select2-hidden-accessible');
+                $selectElement.select2('destroy');
+            });
+        }
+
+        quill{{ id }}.on('text-change', () => {
+            document.getElementById('{{ id }}').innerHTML = quill{{ id }}.root.innerHTML;
+        });
+    </script>
+{% endblock %}

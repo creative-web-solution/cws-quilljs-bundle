@@ -1,0 +1,6 @@
+###> bundle ###
+.DS_Store
+.idea
+composer.lock
+vendor
+###< bundle ###

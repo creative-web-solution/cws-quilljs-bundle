@@ -1,0 +1,15 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Cws\Bundle\QuillJsBundle\Service\QuillJsConfigInterface:
+        class: Cws\Bundle\QuillJsBundle\Service\QuillJsConfig
+        arguments:
+            - '@service_container'
+
+    cws_quill_js.form_type:
+        class: Cws\Bundle\QuillJsBundle\Form\Type\QuillJsType
+        arguments:
+            - '@Cws\Bundle\QuillJsBundle\Service\QuillJsConfigInterface'
+        tags: [ name: 'form.type' ]
