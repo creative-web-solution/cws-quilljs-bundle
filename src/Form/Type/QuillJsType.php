@@ -22,6 +22,7 @@ class QuillJsType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
+        $view->vars['config_name'] = $options['config_name'] ?? $options['quilljs']['config_name'];
         $view->vars['quilljs'] = $options['quilljs'] ?? null;
     }
 
@@ -31,6 +32,7 @@ class QuillJsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'config_name' => null,
             'quilljs' => $this->quillJsConfig->getConfig(),
         ]);
     }

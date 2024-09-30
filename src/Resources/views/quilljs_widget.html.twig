@@ -21,7 +21,7 @@
             theme: '{{ quilljs.theme|default('snow') }}',
             modules: {
                 toolbar: {
-                    container: {% if quilljs.toolbar is iterable %}{{ quilljs.toolbar|json_encode|raw }}{% elseif quilljs.toolbar == true %}{{ quilljs.toolbar|raw }}{% else %}{{ '"%s"'|format(quilljs.toolbar)|raw }}{% endif %},
+                    container: {% if quilljs.toolbar[config_name] is iterable %}{{ quilljs.toolbar[config_name]|json_encode|raw }}{% elseif quilljs.toolbar[config_name] == true %}{{ quilljs.toolbar[config_name]|raw }}{% else %}{{ '"%s"'|format(quilljs.toolbar[config_name])|raw }}{% endif %},
                     syntax: true,
                 },
                 history: true,
