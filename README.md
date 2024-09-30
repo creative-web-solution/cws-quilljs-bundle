@@ -3,7 +3,7 @@
 ## Configuration
 
 ```
-composer require creative-webso
+composer require creative-web-solution/cws-quilljs-bundle
 ```
 
 **Add this line on bundles.php:**
